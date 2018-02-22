@@ -14,6 +14,6 @@ namespace taskmanager_api.Models
 
         [Column("categoria")]
         [StringLength(50)]
-        public string categoria1 { get; set; }
+        public string nome { get; set; }
     }
 }
