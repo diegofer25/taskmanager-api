@@ -44,7 +44,7 @@ namespace taskmanager_api.Controllers
                 tmdb.categoria.Add(new categoria
                 {
                     id = (last == null) ? 0 : last.id + 1,
-                    nome = (string)body.nome
+                    categoria1 = (string)body.nome
                 });
                 tmdb.SaveChanges();
                 return Ok();
@@ -59,9 +59,9 @@ namespace taskmanager_api.Controllers
         public IHttpActionResult Put(int id, [FromBody] dynamic body)
         {
             categoria c = tmdb.categoria.Find(id);
-            if (body.nome != null)
+            if (body.categoria1 != null)
             {
-                c.nome = (string)body.nome;
+                c.categoria1 = (string)body.nome;
             }
             tmdb.SaveChanges();
             return Ok();
