@@ -23,7 +23,7 @@ namespace taskmanager_api.Controllers
         [SwaggerResponse(HttpStatusCode.NotFound)]
         public string Get(int id)
         {
-            return "value";
+            return "teste";
         }
 
         // POST api/values
