@@ -38,9 +38,10 @@ namespace taskmanager_api.Controllers
         [SwaggerResponse(HttpStatusCode.Created)]
         public IHttpActionResult Post([FromBody] dynamic body)
         {
+            tarefas last = tmdb.tarefas.ToList().LastOrDefault();
             tmdb.tarefas.Add(new tarefas
             {
-                id = tmdb.tarefas.ToList().Last().id + 1,
+                id =  last == null ? 0 : last.id + 1,
                 nome = (string)body.nome,
                 categoria = (string)body.categoria,
                 feito = false
