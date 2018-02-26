@@ -12,8 +12,10 @@ namespace taskmanager_api.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
-        [Column("categoria")]
+        [Required]
         [StringLength(50)]
-        public string categoria1 { get; set; }
+        public string nome { get; set; }
+
+        public int userid { get; set; }
     }
 }

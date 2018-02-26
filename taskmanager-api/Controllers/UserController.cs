@@ -9,59 +9,72 @@ using taskmanager_api.Models;
 
 namespace taskmanager_api.Controllers
 {
-    public class CategoryController : ApiController
+    public class UserController : ApiController
     {
         taskmanagerdb tmdb = new taskmanagerdb();
-        /*
-        // GET api/Category
+        
+        // GET api/User
         [SwaggerOperation("GetAll")]
-        public IEnumerable<categoria> Get()
+        public IHttpActionResult Get(string email, string senha)
         {
-            return tmdb.categoria.ToList();
+            usuarios user = tmdb.usuarios.Where(u => u.email == email).SingleOrDefault();
+            if (user != null && user.senha == senha)
+            {
+                return Ok(user);
+            }
+            return NotFound();
         }
-        */
-
-        // GET api/Category/{id}
+        
+        /*
+        // GET api/User/{id}
         [SwaggerOperation("GetById")]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
         public IHttpActionResult Get(int id)
         {
-            List<categoria> cats = tmdb.categoria.Where((t) => t.userid == id).ToList();
-            if (cats == null)
+            var user = tmdb.usuarios.FirstOrDefault((u) => u.id == id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return Ok(cats);
+            return Ok(user);
         }
+        */
 
-        // POST api/Category
+        // POST api/User
         [SwaggerOperation("Create")]
         [SwaggerResponse(HttpStatusCode.Created)]
         public IHttpActionResult Post([FromBody] dynamic body)
         {
-            if (body.nome != null)
+            string email = (string)body.email;
+            var exist = tmdb.usuarios.Where(u => u.email == email).ToList();
+            usuarios last = tmdb.usuarios.ToList().LastOrDefault();
+            if (body.nome != null && exist.Count == 0)
             {
-                categoria last = tmdb.categoria.ToList().LastOrDefault();
-                tmdb.categoria.Add(new categoria
+                Random rnd = new Random();
+                int rdnid = rnd.Next(100, 201);
+                usuarios user = new usuarios()
                 {
-                    id = (last == null) ? 0 : last.id + 1,
+                    id = (last == null) ? rdnid : last.id + rdnid,
                     nome = (string)body.nome,
-                    userid = (int)body.userid
-                });
+                    email = email,
+                    senha = (string)body.senha,
+                    foto = (string)body.foto,
+                };
+                tmdb.usuarios.Add(user);
                 tmdb.SaveChanges();
-                return Ok();
+                return Ok(user);
             }
             return NotFound();
         }
-
-        // PUT api/Category/{id}
+        /*
+        // PUT api/User/{id}
         [SwaggerOperation("Update")]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
         public IHttpActionResult Put(int id, [FromBody] dynamic body)
         {
-            categoria c = tmdb.categoria.Find(id);
+            usuarios c = tmdb.usuarios.Find(id);
             if (body.nome != null)
             {
                 c.nome = (string)body.nome;
@@ -70,20 +83,21 @@ namespace taskmanager_api.Controllers
             return Ok();
         }
 
-        // DELETE api/Category/{id}
+        // DELETE api/User/{id}
         [SwaggerOperation("Delete")]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
         public IHttpActionResult Delete(int id)
         {
-            var cat = tmdb.categoria.FirstOrDefault((c) => c.id == id);
+            var cat = tmdb.usuarios.FirstOrDefault((c) => c.id == id);
             if (cat != null)
             {
-                tmdb.categoria.Remove(cat);
+                tmdb.usuarios.Remove(cat);
                 tmdb.SaveChanges();
                 return Ok();
             }
             return NotFound();
         }
+        */
     }
 }

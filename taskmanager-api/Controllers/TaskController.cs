@@ -12,12 +12,14 @@ namespace taskmanager_api.Controllers
     public class TaskController : ApiController
     {
         taskmanagerdb tmdb = new taskmanagerdb();
+        /*
         // GET api/Taskmanager
         [SwaggerOperation("GetAll")]
         public IEnumerable<tarefas> Get()
         {
             return tmdb.tarefas.ToList();
         }
+        */
 
         // GET api/Taskmanager/{id}
         [SwaggerOperation("GetById")]
@@ -25,12 +27,12 @@ namespace taskmanager_api.Controllers
         [SwaggerResponse(HttpStatusCode.NotFound)]
         public IHttpActionResult Get(int id)
         {
-            var task = tmdb.tarefas.FirstOrDefault((t) => t.id == id);
-            if (task == null)
+            List<tarefas> tasks = tmdb.tarefas.Where((t) => t.userid == id).ToList();
+            if (tasks == null)
             {
                 return NotFound();
             }
-            return Ok(task);
+            return Ok(tasks);
         }
 
         // POST api/Taskmanager
@@ -46,7 +48,8 @@ namespace taskmanager_api.Controllers
                     id = (last == null) ? 0 : last.id + 1,
                     nome = (string)body.nome,
                     categoria = (string)body.categoria,
-                    feito = false
+                    feito = false,
+                    userid = (int)body.userid
                 });
                 tmdb.SaveChanges();
                 return Ok();

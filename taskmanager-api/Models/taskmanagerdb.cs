@@ -15,11 +15,12 @@ namespace taskmanager_api.Models
         public virtual DbSet<categoria> categoria { get; set; }
         public virtual DbSet<status> status { get; set; }
         public virtual DbSet<tarefas> tarefas { get; set; }
+        public virtual DbSet<usuarios> usuarios { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<categoria>()
-                .Property(e => e.categoria1)
+                .Property(e => e.nome)
                 .IsUnicode(false);
 
             modelBuilder.Entity<status>()
@@ -36,6 +37,22 @@ namespace taskmanager_api.Models
 
             modelBuilder.Entity<tarefas>()
                 .Property(e => e.categoria)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<usuarios>()
+                .Property(e => e.nome)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<usuarios>()
+                .Property(e => e.email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<usuarios>()
+                .Property(e => e.senha)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<usuarios>()
+                .Property(e => e.foto)
                 .IsUnicode(false);
         }
     }

@@ -6,21 +6,21 @@ namespace taskmanager_api.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class tarefas
+    public partial class usuarios
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
-        [Required]
-        [StringLength(255)]
+        [StringLength(100)]
         public string nome { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string categoria { get; set; }
+        [StringLength(100)]
+        public string email { get; set; }
 
-        public bool feito { get; set; }
+        [StringLength(32)]
+        public string senha { get; set; }
 
-        public int userid { get; set; }
+        [StringLength(255)]
+        public string foto { get; set; }
     }
 }
